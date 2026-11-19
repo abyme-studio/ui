@@ -20,7 +20,7 @@ function createFocusRecovery(options) {
         }
       };
       const focusout = () => queueMicrotask(() => {
-        if (holder === el && el.isConnected && !el.contains(document.activeElement)) {
+        if (holder === el && el.isConnected && !el.contains(el.ownerDocument.activeElement)) {
           holder = null;
         }
       });
@@ -30,8 +30,8 @@ function createFocusRecovery(options) {
         el.removeEventListener("focusin", focusin);
         el.removeEventListener("focusout", focusout);
         bound.delete(el);
-        const active = typeof document === "undefined" ? null : document.activeElement;
-        const held = el.contains(active) || holder === el && (!active || active === document.body);
+        const active = el.ownerDocument.activeElement;
+        const held = el.contains(active) || holder === el && (!active || active === el.ownerDocument.body);
         if (holder === el) {
           holder = null;
         }
@@ -40,8 +40,8 @@ function createFocusRecovery(options) {
         }
         const lost = { key: part.key, props: part.props, el };
         queueMicrotask(() => {
-          const now = document.activeElement;
-          if (now && now !== document.body && now.isConnected && !el.contains(now)) {
+          const now = el.ownerDocument.activeElement;
+          if (now && now !== el.ownerDocument.body && now.isConnected && !el.contains(now)) {
             return;
           }
           const target = options.fallback(lost);

@@ -47,7 +47,7 @@ function triggerKeydown(event, el) {
   el.click();
 }
 function focusPressedTrigger(el) {
-  if (el && typeof document !== "undefined" && document.activeElement !== el) {
+  if (el && el.ownerDocument.activeElement !== el) {
     el.focus({ preventScroll: true });
   }
 }

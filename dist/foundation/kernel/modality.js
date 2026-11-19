@@ -45,10 +45,12 @@ function install() {
     return;
   }
   installed = true;
-  document.addEventListener("keydown", noteKeydown, true);
-  document.addEventListener("keyup", noteKey, true);
-  document.addEventListener("pointerdown", notePress, true);
-  document.addEventListener("touchstart", notePress, {
+  // ts-gpu-kit: input reaches a kit on the page through its own document, not the page's.
+  const doc = globalThis.__uiSdkDocument ?? document;
+  doc.addEventListener("keydown", noteKeydown, true);
+  doc.addEventListener("keyup", noteKey, true);
+  doc.addEventListener("pointerdown", notePress, true);
+  doc.addEventListener("touchstart", notePress, {
     capture: true,
     passive: true
   });

@@ -6,7 +6,8 @@ function isTypeaheadKey(event) {
 }
 function textOf(el) {
   let text = "";
-  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  // ts-gpu-kit: the element's own document, not the page's: a HostNode's is a HostDocument.
+  const walker = (el.ownerDocument ?? document).createTreeWalker(el, NodeFilter.SHOW_TEXT);
   while (walker.nextNode()) {
     const node = walker.currentNode;
     const hidden = node.parentElement?.closest('[aria-hidden="true"], [hidden]');

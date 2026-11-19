@@ -140,7 +140,7 @@ function closeOtherHovered(core, trigger, event) {
     const popup = other.popup.element();
     if (!other.store.get().open || other.popup.opener() !== "hover") {
       hoverOpened.delete(other);
-    } else if (other !== core && !popup?.contains(trigger ?? null) && !popup?.contains(document.activeElement)) {
+    } else if (other !== core && !popup?.contains(trigger ?? null) && !popup?.contains((popup?.ownerDocument ?? document).activeElement)) {
       other.control.hide({ reason: "trigger-hover", event, focus: false });
     }
   }
@@ -154,7 +154,7 @@ function hoverOpening(core, group) {
     closesOnLeave: () => store.get().open && core.popup.opener() === "hover",
     closeDelay: () => options().closeDelay ?? preset.closeDelay ?? 0,
     close(event) {
-      if (core.popup.element()?.contains(document.activeElement)) {
+      if (core.popup.element()?.contains((core.popup.element()?.ownerDocument ?? document).activeElement)) {
         return;
       }
       core.control.hide({ reason: "trigger-hover", event, focus: false });
@@ -221,7 +221,7 @@ function focusOpening(core) {
         return;
       }
       const open = () => {
-        if (!options().disabled && !core.triggerDisabled(key) && core.element(core.triggerSlot, key)?.contains(document.activeElement)) {
+        if (!options().disabled && !core.triggerDisabled(key) && core.element(core.triggerSlot, key)?.contains((core.element(core.triggerSlot, key)?.ownerDocument ?? document).activeElement)) {
           core.control.show({
             by: "keyboard",
             event,

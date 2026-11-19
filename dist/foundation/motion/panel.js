@@ -82,7 +82,7 @@ function bindPanel(el, panel) {
   };
   const closing = () => {
     halt();
-    if (el.contains(document.activeElement)) {
+    if (el.contains(el.ownerDocument.activeElement)) {
       panel.trigger()?.focus({ preventScroll: true });
     }
     if (!panel.isExiting()) {

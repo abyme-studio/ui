@@ -502,7 +502,7 @@ function menuApiBody(context) {
         return;
       }
     }
-    if (store.get().highlighted !== entry.key || document.activeElement !== el) {
+    if (store.get().highlighted !== entry.key || (el.ownerDocument ?? document).activeElement !== el) {
       highlight(entry.key);
     }
     clearTimeout(hoverTimer);
@@ -643,7 +643,7 @@ function menuApiBody(context) {
       return;
     }
     const list = entries.list();
-    const focused = entryOf(document.activeElement);
+    const focused = entryOf((target.ownerDocument ?? document).activeElement);
     const currentKey = focused?.key ?? store.get().highlighted;
     const index = list.findIndex((entry) => entry.key === currentKey);
     const current = list[index];

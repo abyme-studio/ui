@@ -251,7 +251,7 @@ function createRovingFocus(context, options) {
         }
         moveTo(
           itemKey,
-          typeof document === "undefined" ? null : document.activeElement
+          typeof document === "undefined" ? null : (item?.el.ownerDocument ?? document).activeElement
         );
         return;
       }

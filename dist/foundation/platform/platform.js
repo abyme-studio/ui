@@ -12,7 +12,8 @@ function portalTarget(container) {
   }
   return null;
 }
-function activeElement(doc = document) {
+// ts-gpu-kit: callers pass no document; a kit on the page names its own, else the page's.
+function activeElement(doc = globalThis.__uiSdkDocument ?? document) {
   let active = doc.activeElement;
   while (active?.shadowRoot?.activeElement) {
     active = active.shadowRoot.activeElement;
