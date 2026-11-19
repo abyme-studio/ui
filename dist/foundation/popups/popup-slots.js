@@ -3,6 +3,7 @@ import { dev } from "#dev";
 import { checkName } from "#name-check";
 import { flagWhileBound, settleFlag } from "../kernel/bound-keys.js";
 import { openAttrs } from "../kernel/attrs.js";
+import { buttonElement } from "../platform/button.js";
 import { onProps } from "../kernel/part.js";
 import { popupContentAttrs } from "./popup.js";
 import { ownsEvent, registerPopupElement } from "./popup-elements.js";
@@ -88,10 +89,18 @@ function popupTrigger(slot) {
       focusout: (event, { api }) => api.internal.focus?.leave(event),
       keydown: (event, { api, el, key, props }) => el && triggerKeydown(api.internal, event, el, key, props)
     },
+    // A trigger a press opens is a button, whatever it's rendered as: one rendered
+    // as another element, whose Enter and Space `keydown` wires up, says so.
+    role: (state, { api, key }) => api.internal.press && state.triggerElements?.[key] === "other" ? "button" : void 0,
+    roles: ["button"],
     press: ({ api, key, props }, event) => api.internal.press?.press(key, props, event),
     bind(el, { api, key, id, store }) {
       if (dev) {
         checkName(el, "The trigger", { component: api.internal.label, id });
+      }
+      const element = buttonElement(el);
+      if (store.get().triggerElements?.[key] !== element) {
+        store.set({ triggerElements: { ...store.get().triggerElements, [key]: element } });
       }
       return bindTrigger(store, key);
     }

@@ -88,6 +88,8 @@ var popoverPrimitive = /* @__PURE__ */ definePrimitive({
           "aria-keyshortcuts": part.props.shortcut ? ariaKeyshortcuts(part.props.shortcut, state.apple) : void 0
         }),
         on: trigger.on,
+        role: trigger.role,
+        roles: trigger.roles,
         press: trigger.press,
         bind(el, part) {
           const { api, key } = part;
