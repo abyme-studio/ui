@@ -16,5 +16,10 @@ and where upstream tracks it, so the fork can go once upstream takes them:
   50793b345a). The `ownerDocument` hunks are upstream material; `__uiSdkDocument` is a hook of
   abyme's own. Upstream: no issue yet.
 
+- A submenu leaves its parent's `internal.children` when it is destroyed. The parent kept every
+  submenu ever made, and with each its parts and their elements, so a menu opened and closed for
+  hours grew its page's memory without end (abyme's tessera memory run, 4 MB in 20 minutes).
+  Upstream: no issue yet.
+
 Used by abyme's tessera spike (`spikes/tessera-bench`, the tests by role), whose kit renders every
 part as a `<box>`.
